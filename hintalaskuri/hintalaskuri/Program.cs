@@ -44,7 +44,7 @@ namespace HintaLaskuri
                     Console.Write("Kuinka vanha olet? ");
                     ikä = int.Parse(Console.ReadLine());
 
-                    if (ikä <= 7)
+                    if (ikä < 7)
                     {
                         alennus = 1;
                     }
