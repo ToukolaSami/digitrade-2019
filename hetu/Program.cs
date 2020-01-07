@@ -6,9 +6,53 @@ namespace hetu
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("ohjeelma tarkistaa hetun");
-            //Console.Write("");
-            string userInput = "131098-593V";
+            //Console.WriteLine("ohjeelma tarkistaa hetun");
+            char userChoise;
+            do
+            {
+                Console.Clear();
+                userChoise = UserInterface(); //käyttöliittymä funktio
+                switch (userChoise)
+                {
+                    case 'T':
+                        SSNChecker();
+                        break;
+                    case 'U':
+                        //SSNCreator(); //kutsutaan sotunluonti optiota
+                        break;
+                    case 'X':
+                        break;
+                    default:
+                        Console.WriteLine("Tarkista mitä painoit! Enter jatkaa ohjelmaa");
+                        Console.ReadKey();
+                        break;
+
+                }
+            } while (userChoise != 'X');
+        }
+        static void SSNCreator()
+        {
+            Console.Write("\nAnna luotavan sotun alkuosa [PPKKVV-XXXT]: ");
+            string userInput = Console.ReadLine();
+
+            userInput = RemoveSpaces(userInput);
+            if (IsValidLenght(userInput, 10))
+            {
+                if (IsValidDate(userInput))
+                {
+                    int idNumber = InputParse(userInput);
+                    char getValidationMark = GetValidationMark(idNumber);
+                    PrintCreatedSSNUmber(userInput + getValidationMark);
+                }
+            }
+        }
+
+
+        static void SSNChecker()
+        {
+            Console.Write("\nAnna tarkastettava sotu [PPKKVV-XXXT]: ");
+            string userInput = Console.ReadLine();
+
             userInput = RemoveSpaces(userInput);
             if (IsValidLenght(userInput))
             {
@@ -26,12 +70,16 @@ namespace hetu
                 Console.WriteLine("tarkasta hetun oikeellisuus -liikaa merkkejä");
             }
         }
+
         static char UserInterface()
         {
             Console.WriteLine("Henkilötunnuksen käsittely");
             Console.WriteLine("[T] Tarkista henkilötunnuksen oikeellisuus");
             Console.WriteLine("[U] Luo uusi henkilötunnus");
             Console.WriteLine("[X] Sulje ohjelma");
+            Console.Write("Valitse mitä tehdään: ");
+
+            return char.ToUpper(Console.ReadKey().KeyChar);
         }
         static bool IsValidDate(string userInput)
         {
@@ -76,8 +124,12 @@ namespace hetu
             //else
               //  return false;
         }
+        static bool IsValidLenght(string userInput, int lenght)
+        {
+            return userInput.Length == lenght;
+        }
 
-        static string RemoveSpaces(string userInput)
+            static string RemoveSpaces(string userInput)
         {
             string result = userInput.Replace(" ", "");
             return result;
@@ -92,8 +144,12 @@ namespace hetu
         {
             //luetaan
             //string result = stringParser.Substring(0, 5);
-
-            string removed = stringParser.Remove(10, 1);
+            string removed = userInput;
+            if (stringParser.Length > 10)
+            {
+                removed = stringParser.Remove(10, 1);
+            }
+            
             removed = removed.Remove(6, 1);
 
             return int.Parse(removed);
@@ -114,13 +170,24 @@ namespace hetu
             //Console.WriteLine(checkMark[modCheck]);
             return checkMark[modCheck]== userInputCheckMark;
         }
+        static bool GetValidationMark(int idNumber, char userInputCheckMark)
+        {
+            string checkMark = "0123456789ABCDEFHJKLMNPRSTUVWXY";
 
-        static void printresult(bool isValidID)
+            int modCheck = idNumber % 31;
+            return checkMark[modCheck];
+        }
+
+            static void printresult(bool isValidID)
         {
             if(isValidID)
                 Console.WriteLine("Sotu on oikea");
                 else
                 Console.WriteLine("Sotu on väärä");
+        }
+        static void PrintCreatedSSNUmber(string newSSNumber)
+        {
+            Console.WriteLine($"Luotu sotu on: {newSSNumber} ");
         }
     }
 }
