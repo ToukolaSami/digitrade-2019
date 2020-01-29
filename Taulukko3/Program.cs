@@ -17,7 +17,7 @@ namespace Taulukko3
             {
                 Console.WriteLine($"[{n}] = {numbers[n]:D2}");
             }
-            Console.ReadKey();
+            
         }
     }
 }
