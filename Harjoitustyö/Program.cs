@@ -19,12 +19,16 @@ namespace Harjoitustyö
                     case '1':
                         CheckNumber();
                         break;
+
+                    case '2':
+                        CreateNumber();
+                        break;
                     
                     case '0':
                         break;
 
                     default:
-                        Console.WriteLine("\nTarkista syöte!.");
+                        Console.WriteLine("\nTarkista syöte!");
                         Console.ReadLine();
                         break;
                 }
@@ -35,6 +39,7 @@ namespace Harjoitustyö
            
             
             Console.WriteLine("[1] Tarkista viitenumero.");
+            Console.WriteLine("[2] Luo viitenumero");
             Console.WriteLine("[0] Close program.");
             Console.Write("Valitse ");
             return char.ToUpper(Console.ReadKey().KeyChar);
@@ -82,6 +87,44 @@ namespace Harjoitustyö
                 Console.Clear();
             } while (input.Length <= 4 || input.Length >= 20 || !Int32.TryParse(input, out inputNum) || inputNum < 0);
             return input;
+        }
+        static void CreateNumber()
+        {
+
+            string inputNumber;
+            do
+            {
+                Console.Write("\n\nSyötä viitenumeron alkuosa, joka on 3-19 merkkiä pitkä:");
+                inputNumber = Console.ReadLine();
+            } while (inputNumber.Length <= 3 || inputNumber.Length >= 19);
+            int sum = 0;
+            int[] multiplier = new int[] { 7, 3, 1 };
+            int[] array = new int[inputNumber.Length];
+            for (int i = 0; i < inputNumber.Length; i++)
+            {
+                array[i] = int.Parse(inputNumber[i].ToString());
+            }
+            for (int i = 0; i < array.Length; i++)
+            {
+                sum += array[array.Length - 1 - i] * multiplier[i % 3];
+            }
+            int checkNumber = 10 - (sum % 10);
+            if (checkNumber == 10)
+            {
+                checkNumber = 0;
+            }
+            string outputNumber = inputNumber + checkNumber;
+            for (int i = 1; i < outputNumber.Length; i++)
+            {
+                if (i % 5 == 0)
+                {
+                    outputNumber = outputNumber.Insert(i, "");
+                }
+            }
+            Console.WriteLine($"Uusi viitenumero:{outputNumber}");
+            Console.WriteLine("\nPaina jotain näppäintä palataksesi alkuun");
+            Console.ReadLine();
+            Console.Clear();
         }
     }
 }
