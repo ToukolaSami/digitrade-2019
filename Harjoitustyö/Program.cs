@@ -12,7 +12,7 @@ namespace Harjoitustyö
             char userChoise;
             do
             {
-
+                Console.Clear();
                 userChoise = UserInterface();
                 switch (userChoise)
                 {
@@ -21,20 +21,23 @@ namespace Harjoitustyö
                         {
                             if (CheckNumber(input) == true)
                             {
-                                Console.WriteLine("Oikea");
+                                Console.WriteLine($"Viitenumero {input} on oikea");
+                                Console.WriteLine("\nPaina jotain näppäintä palataksesi alkuun");
+                                Console.ReadLine();
                             }
                             else
                             {
-                                Console.WriteLine("väärä");
+                                Console.WriteLine($"Viitenumero {input} on väärä");
+                                Console.WriteLine("\nPaina jotain näppäintä palataksesi alkuun");
+                                Console.ReadLine();
                             }
                         }
                         catch
                         {
-                            Console.WriteLine($"Invalid input. Press any key to continue.");
+                            Console.WriteLine($"Väärä syöte!");
+                            Console.WriteLine("\nPaina jotain näppäintä palataksesi alkuun");
                             Console.ReadKey();
-                        }
-
-                        //CheckNumber(input);
+                        } 
                         break;
 
                     case '2':
@@ -59,6 +62,7 @@ namespace Harjoitustyö
         {
             Console.WriteLine("[1] Tarkista viitenumero");
             Console.WriteLine("[2] Luo viitenumero");
+            Console.WriteLine("[3] Luo monta viitenumeroa");
             Console.WriteLine("[0] Sulje ohjelma");
             Console.Write("Valitse: ");
             return char.ToUpper(Console.ReadKey().KeyChar);
@@ -85,39 +89,35 @@ namespace Harjoitustyö
             }
             if (array[array.Length - 1] == checkNumber)
             {
-                //Console.WriteLine($"Viitenumero {number} on ok.");
                 return true;
             }
             else
             {
-                //Console.WriteLine($"Viitenumero {number} on väärin.");
                 return false;
             }
-            //Console.WriteLine("\nPaina jotain näppäintä palataksesi alkuun");
-            //Console.ReadLine();
-            //Console.Clear();
         }
 
         static string Input()
+
         {
             string input = String.Empty;
             int inputNum = 0;
             do
             {
-                Console.Write("\n\nSyötä viitenumero (4-20 numeroa): ");
-                input = Console.ReadLine();
                 Console.Clear();
+                Console.Write("Syötä viitenumero (4-20 numeroa): ");
+                input = Console.ReadLine();
             } while (input.Length <= 4 || input.Length >= 20 || !Int32.TryParse(input, out inputNum) || inputNum < 0);
             return input;
         }
 
         static void CreateNumber()
         {
-
             string inputNumber;
             do
             {
-                Console.Write("\n\nMikä on viitenumeron alkuosa? (3-19 numeroa) ");
+                Console.Clear();
+                Console.Write("Mikä on viitenumeron alkuosa (3-19 numeroa): ");
                 inputNumber = Console.ReadLine();
             } while (inputNumber.Length <= 3 || inputNumber.Length >= 19);
             int sum = 0;
@@ -151,20 +151,17 @@ namespace Harjoitustyö
         }
 
         static void CreateMultiNumber()
-
-
-
         {
+            Console.Clear();
             Console.Write("Kuinka monta viitenumeroa haluat luoda?: ");
-            //int count = int.Parse(Console.ReadLine());
+            int count = int.Parse(Console.ReadLine());
             Console.WriteLine("Mikä on viitenumeron alkuosa? (3-19 numeroa): ");
-            //string baseNumber = Console.ReadLine();
-            int count = 3;
-            int baseNumber = 1234567;
+            string baseNumber = Console.ReadLine();
+
 
             int i = 0;
-            //string path = @"Referencenumber.txt"; //This is the name of file where we save reference numbers
-            
+            //string path = @"Referencenumber.txt";
+
 
 
             for (int i2 = 0; i2 < count; i2++)
@@ -187,5 +184,10 @@ namespace Harjoitustyö
             }
 
         }
+        //static void WriteToFile(string path, string inputValue)
+        //{
+        //    using StreamWriter sw = new StreamWriter(path, true);
+        //    sw.WriteLine(inputValue);
+        //}
     }
 }
